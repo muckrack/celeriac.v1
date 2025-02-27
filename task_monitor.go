@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 
+	amqp "github.com/rabbitmq/amqp091-go"
 	// Package dependencies
 	log "github.com/sirupsen/logrus"
-	"github.com/streadway/amqp"
 )
 
 /*
