@@ -11,12 +11,12 @@ import (
 )
 
 var (
-	queueMgr     *TaskQueueMgr
-	brokerURI    = "amqp://admin:password@localhost:5672"
-	testLifetime = 60 * time.Second
+	queueMgr             *TaskQueueMgr
+	brokerURI            = "amqp://admin:password@localhost:5672"
+	testLifetime         = 60 * time.Second
 	taskDispatchInterval = 1000 * time.Millisecond
-	taskRoutingKey = "root.test"
-	taskName = "root.test.mytask"
+	taskRoutingKey       = "root.test"
+	taskName             = "root.test.mytask"
 )
 
 var wg sync.WaitGroup
@@ -35,7 +35,6 @@ func TestNewTaskQueueMgr(t *testing.T) {
 	}
 
 	expect(t, err, nil)
-
 
 	// Configure monitor
 	queueMgr.Monitor.monitorWorkerHeartbeatEvents = true

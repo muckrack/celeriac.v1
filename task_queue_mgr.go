@@ -5,20 +5,20 @@ import (
 	"time"
 
 	// Package dependencies
+	"crypto/tls"
+	amqp "github.com/rabbitmq/amqp091-go"
 	log "github.com/sirupsen/logrus"
-	"github.com/streadway/amqp"
-    "strings"
-    "crypto/tls"
+	"strings"
 )
 
 /*
 TaskQueueMgr defines a manager for interacting with a Celery task queue
 */
 type TaskQueueMgr struct {
-	brokerURI	string
-	connection *amqp.Connection
-	channel    *amqp.Channel
-	Monitor    *TaskMonitor
+	brokerURI    string
+	connection   *amqp.Connection
+	channel      *amqp.Channel
+	Monitor      *TaskMonitor
 	errorChannel chan *amqp.Error
 	closed       bool
 }
@@ -28,7 +28,7 @@ NewTaskQueueMgr is a factory function that creates a new instance of the TaskQue
 */
 func NewTaskQueueMgr(brokerURI string) (*TaskQueueMgr, error) {
 	self := &TaskQueueMgr{
-		brokerURI: brokerURI,
+		brokerURI:    brokerURI,
 		errorChannel: make(chan *amqp.Error),
 	}
 
@@ -126,11 +126,11 @@ publish publishes data onto an AMQP channel via the specified exchange name and 
 func (taskQueueMgr *TaskQueueMgr) publish(data interface{}, exchangeName string, routingKey string) error {
 	// Non-blocking channel where if there is no error its simply ignored
 	select {
-		case err := <-taskQueueMgr.errorChannel:
-			if err != nil {
-				taskQueueMgr.connect()
-			}
-		default:
+	case err := <-taskQueueMgr.errorChannel:
+		if err != nil {
+			taskQueueMgr.connect()
+		}
+	default:
 	}
 
 	bodyData, err := json.Marshal(data)

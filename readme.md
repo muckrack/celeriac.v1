@@ -8,7 +8,7 @@ It provides functionality to place tasks on the task queue, as well as monitor b
 
 This library depends upon the following packages:
 
-- github.com/streadway/amqp
+- github.com/rabbitmq/amqp091-go
 - github.com/sirupsen/logrus
 - github.com/nu7hatch/gouuid
 - github.com/mailru/easyjson
